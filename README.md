@@ -15,7 +15,7 @@ The slides and sample project used in Paul Lammertsma's 2016 season conference t
 
 # Sample project
 
-<img src="screenshots/main.png" height="400" alt="Screenshot"/> 
+<img src="screenshots/offline.png" height="400" alt="Offline"/> <img src="screenshots/accounts.png" height="400" alt="Accounts"/> <img src="screenshots/main.png" height="400" alt="Online"/> 
 
 The sample is derived from [Google's Android BasicSyncAdapter Sample][1].
 
