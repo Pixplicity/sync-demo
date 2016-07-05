@@ -13,13 +13,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_height="wrap_content"
-             android:layout_width="@dimen/action_button_min_width"
-             android:minWidth="@dimen/action_button_min_width">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/action_button_min_width"
+    android:layout_height="wrap_content"
+    android:minWidth="@dimen/action_button_min_width">
 
-    <ProgressBar android:layout_width="@dimen/indeterminate_progress_size"
-                 android:layout_height="@dimen/indeterminate_progress_size"
-                 android:layout_gravity="center"
-                 style="?indeterminateProgressStyle" />
+    <ProgressBar
+        style="?indeterminateProgressStyle"
+        android:layout_width="@dimen/indeterminate_progress_size"
+        android:layout_height="@dimen/indeterminate_progress_size"
+        android:layout_gravity="center"
+        android:indeterminateTint="#fff"/>
+
 </FrameLayout>

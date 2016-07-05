@@ -16,6 +16,6 @@ limitations under the License.
 -->
 
 <resources>
-    <dimen name="action_button_min_width">56dp</dimen>
+    <dimen name="action_button_min_width">48dp</dimen>
     <dimen name="indeterminate_progress_size">32dp</dimen>
 </resources>
