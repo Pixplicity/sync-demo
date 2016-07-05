@@ -14,12 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-              android:contentAuthority="com.example.android.basicsyncadapter"
-              android:accountType="com.example.android.basicsyncadapter.account"
-              android:userVisible="false"
-              android:supportsUploading="false"
-              android:allowParallelSyncs="false"
-              android:isAlwaysSyncable="true"
-        />
+<sync-adapter
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accountType="com.example.android.basicsyncadapter.account"
+    android:allowParallelSyncs="false"
+    android:contentAuthority="com.example.android.basicsyncadapter"
+    android:isAlwaysSyncable="true"
+    android:supportsUploading="false"
+    android:userVisible="false"/>
