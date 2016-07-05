@@ -19,7 +19,7 @@
           android:versionCode="1"
           android:versionName="1.0">
 
-    <!-- SyncAdapters are available in API 5 and above. We use API 7 as a baseline for samples. -->
+    <!-- SyncAdapters are available in API 5 and above. -->
     <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
 
     <!-- Required for fetching feed data. -->
@@ -51,24 +51,24 @@
 
         <!-- ContentProvider to store feed data.
 
-        The "authorities" here are defined as part of a ContentProvider interface. It's used here
-        as an attachment point for the SyncAdapter. See res/xml/syncadapter.xml and
-        SyncService.java.
+             The "authorities" here are defined as part of a ContentProvider interface. It's used here
+             as an attachment point for the SyncAdapter. See res/xml/syncadapter.xml and
+             SyncService.java.
 
-        Since this ContentProvider is not exported, it will not be accessible outside of this app's
-        package. -->
+             Since this ContentProvider is not exported, it will not be accessible outside of this app's
+             package. -->
         <provider
             android:name=".provider.FeedProvider"
             android:authorities="com.example.android.basicsyncadapter"
             android:exported="false"/>
 
         <!-- This service implements our SyncAdapter. It needs to be exported, so that the system
-        sync framework can access it. -->
+             sync framework can access it. -->
         <service
             android:name=".sync.SyncService"
             android:exported="true">
             <!-- This intent filter is required. It allows the system to launch our sync service
-            as needed. -->
+                 as needed. -->
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
@@ -79,11 +79,11 @@
         </service>
 
         <!-- This implements the account we'll use as an attachment point for our SyncAdapter. Since
-        our SyncAdapter doesn't need to authenticate the current user (it just fetches a public RSS
-        feed), this account's implementation is largely empty.
+             our SyncAdapter doesn't need to authenticate the current user (it just fetches a public RSS
+             feed), this account's implementation is largely empty.
 
-        It's also possible to attach a SyncAdapter to an existing account provided by another
-        package. In that case, this element could be omitted here. -->
+             It's also possible to attach a SyncAdapter to an existing account provided by another
+             package. In that case, this element could be omitted here. -->
         <service android:name="com.example.android.common.accounts.GenericAccountService">
             <!-- Required filter used by the system to launch our account service. -->
             <intent-filter>
