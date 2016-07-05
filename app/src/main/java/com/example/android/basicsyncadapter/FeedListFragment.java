@@ -354,7 +354,7 @@ public class FeedListFragment extends Fragment
                     // Create a handle to the account that was created by
                     // SyncService.createSyncAccount(). This will be used to query the system to
                     // see how the sync status has changed.
-                    Account account = GenericAccountService.getAccount(SyncUtils.ACCOUNT_TYPE);
+                    Account account = SyncService.getAccount(SyncUtils.ACCOUNT_TYPE);
 
                     // Test the ContentResolver to see if the sync adapter is active or pending.
                     // Set the state of the refresh button accordingly.

@@ -26,14 +26,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.example.android.basicsyncadapter.provider.FeedContract;
-import com.example.android.common.accounts.GenericAccountService;
 
 /**
  * Static helper methods for working with the sync framework.
  */
 public class SyncUtils {
 
-    private static final long SYNC_FREQUENCY = 60 * 60;  // 1 hour (in seconds)
+    private static final long SYNC_FREQUENCY = 12 * 60 * 60;  // 12 hours (in seconds)
     private static final String CONTENT_AUTHORITY = FeedContract.CONTENT_AUTHORITY;
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
     // Value below must match the account type specified in res/xml/syncadapter.xml
@@ -51,7 +50,7 @@ public class SyncUtils {
                 .getDefaultSharedPreferences(context).getBoolean(PREF_SETUP_COMPLETE, false);
 
         // Create account, if it's missing. (Either first run, or user has deleted account.)
-        Account account = GenericAccountService.getAccount(ACCOUNT_TYPE);
+        Account account = SyncService.getAccount(ACCOUNT_TYPE);
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
@@ -93,7 +92,7 @@ public class SyncUtils {
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(
-                GenericAccountService.getAccount(ACCOUNT_TYPE), // Sync account
+                SyncService.getAccount(ACCOUNT_TYPE), // Sync account
                 FeedContract.CONTENT_AUTHORITY,                 // Content authority
                 b);                                             // Extras
     }
