@@ -17,11 +17,10 @@ limitations under the License.
 
 <resources>
 
-    <string name="app_name">BasicSyncAdapter</string>
+    <string name="app_name">Sync Demo</string>
 
-    <string name="intro_message">
+    <string name="about_message">
         <![CDATA[
-
 
             This sample demonstrates using SyncAdapter to fetch background data for an app that
             doesn\'t require a user-visible account type or 2-way synchronization.
@@ -30,12 +29,14 @@ limitations under the License.
             caches the data in a content provider. At runtime, the cached feed data is displayed
             inside a ListView.
 
-
         ]]>
     </string>
 
-    <string name="account_name">FeedSync Service</string>
+    <string name="account_name">Sync Demo Service</string>
+
     <string name="loading">Waiting for sync…</string>
-    <string name="description_refresh">Refresh</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="about">About</string>
 
 </resources>

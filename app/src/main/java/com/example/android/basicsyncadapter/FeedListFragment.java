@@ -68,10 +68,10 @@ import com.example.android.common.accounts.GenericAccountService;
  * runs immediately. An indeterminate ProgressBar element is displayed, showing that the sync is
  * occurring.
  */
-public class EntryListFragment extends Fragment
+public class FeedListFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "EntryListFragment";
+    private static final String TAG = "FeedListFragment";
 
     /**
      * Cursor adapter for controlling ListView results.
@@ -128,7 +128,7 @@ public class EntryListFragment extends Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public EntryListFragment() {
+    public FeedListFragment() {
     }
 
     @Override
@@ -154,7 +154,7 @@ public class EntryListFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_entry_list, null);
+        return inflater.inflate(R.layout.fragment_feed_list, null);
     }
 
     @Override
@@ -244,6 +244,30 @@ public class EntryListFragment extends Fragment
     }
 
     /**
+     * Create the ActionBar.
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mOptionsMenu = menu;
+        inflater.inflate(R.menu.list, menu);
+    }
+
+    /**
+     * Respond to user gestures on the ActionBar.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // If the user clicks the "Refresh" button.
+            case R.id.menu_refresh:
+                SyncUtils.triggerRefresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
      * Query the content provider for data.
      *
      * <p>Loaders do queries in a background thread. They also provide a ContentObserver that is
@@ -286,30 +310,6 @@ public class EntryListFragment extends Fragment
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         changeCursor(null);
-    }
-
-    /**
-     * Create the ActionBar.
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        mOptionsMenu = menu;
-        inflater.inflate(R.menu.main, menu);
-    }
-
-    /**
-     * Respond to user gestures on the ActionBar.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // If the user clicks the "Refresh" button.
-            case R.id.menu_refresh:
-                SyncUtils.triggerRefresh();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
