@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.basicsyncadapter;
+package com.example.android.basicsyncadapter.sync;
 
 import android.accounts.Account;
 import android.annotation.TargetApi;

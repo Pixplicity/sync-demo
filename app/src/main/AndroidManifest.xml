@@ -65,7 +65,7 @@
         <!-- This service implements our SyncAdapter. It needs to be exported, so that the system
         sync framework can access it. -->
         <service
-            android:name=".SyncService"
+            android:name=".sync.SyncService"
             android:exported="true">
             <!-- This intent filter is required. It allows the system to launch our sync service
             as needed. -->

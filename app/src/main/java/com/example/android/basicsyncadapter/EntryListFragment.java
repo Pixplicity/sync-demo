@@ -41,6 +41,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.basicsyncadapter.provider.FeedContract;
+import com.example.android.basicsyncadapter.sync.SyncService;
+import com.example.android.basicsyncadapter.sync.SyncUtils;
 import com.example.android.common.accounts.GenericAccountService;
 
 /**

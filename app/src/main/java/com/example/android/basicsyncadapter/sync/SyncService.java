@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.basicsyncadapter;
+package com.example.android.basicsyncadapter.sync;
 
 import android.app.Service;
 import android.content.Intent;
