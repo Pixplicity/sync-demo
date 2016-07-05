@@ -18,8 +18,8 @@ package com.example.android.basicsyncadapter;
 
 import android.accounts.Account;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SyncStatusObserver;
 import android.database.Cursor;
@@ -152,11 +152,11 @@ public class EntryListFragment extends ListFragment
      * {@link SyncService} with it, and establish a sync schedule.
      */
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         // Create account, if needed
-        SyncUtils.createSyncAccount(activity);
+        SyncUtils.createSyncAccount(context);
     }
 
     @Override
@@ -345,12 +345,6 @@ public class EntryListFragment extends ListFragment
                     // SyncService.createSyncAccount(). This will be used to query the system to
                     // see how the sync status has changed.
                     Account account = GenericAccountService.getAccount(SyncUtils.ACCOUNT_TYPE);
-                    if (account == null) {
-                        // getAccount() returned an invalid value. This shouldn't happen, but
-                        // we'll set the status to "not refreshing".
-                        setRefreshActionButtonState(false);
-                        return;
-                    }
 
                     // Test the ContentResolver to see if the sync adapter is active or pending.
                     // Set the state of the refresh button accordingly.

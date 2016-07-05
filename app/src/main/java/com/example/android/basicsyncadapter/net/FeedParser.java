@@ -79,7 +79,7 @@ public class FeedParser {
      */
     private List<Entry> readFeed(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
 
         // Search for <feed> tags. These wrap the beginning/end of an Atom document.
         //
@@ -137,28 +137,34 @@ public class FeedParser {
                 continue;
             }
             String name = parser.getName();
-            if (name.equals("id")) {
-                // Example: <id>urn:uuid:218AC159-7F68-4CC6-873F-22AE6017390D</id>
-                id = readTag(parser, TAG_ID);
-            } else if (name.equals("title")) {
-                // Example: <title>Article title</title>
-                title = readTag(parser, TAG_TITLE);
-            } else if (name.equals("link")) {
-                // Example: <link rel="alternate" type="text/html" href="http://example.com/article/1234"/>
-                //
-                // Multiple link types can be included. readAlternateLink() will only return
-                // non-null when reading an "alternate"-type link. Ignore other responses.
-                String tempLink = readTag(parser, TAG_LINK);
-                if (tempLink != null) {
-                    link = tempLink;
-                }
-            } else if (name.equals("published")) {
-                // Example: <published>2003-06-27T12:00:00Z</published>
-                Time t = new Time();
-                t.parse3339(readTag(parser, TAG_PUBLISHED));
-                publishedOn = t.toMillis(false);
-            } else {
-                skip(parser);
+            switch (name) {
+                case "id":
+                    // Example: <id>urn:uuid:218AC159-7F68-4CC6-873F-22AE6017390D</id>
+                    id = readTag(parser, TAG_ID);
+                    break;
+                case "title":
+                    // Example: <title>Article title</title>
+                    title = readTag(parser, TAG_TITLE);
+                    break;
+                case "link":
+                    // Example: <link rel="alternate" type="text/html" href="http://example.com/article/1234"/>
+                    //
+                    // Multiple link types can be included. readAlternateLink() will only return
+                    // non-null when reading an "alternate"-type link. Ignore other responses.
+                    String tempLink = readTag(parser, TAG_LINK);
+                    if (tempLink != null) {
+                        link = tempLink;
+                    }
+                    break;
+                case "published":
+                    // Example: <published>2003-06-27T12:00:00Z</published>
+                    Time t = new Time();
+                    t.parse3339(readTag(parser, TAG_PUBLISHED));
+                    publishedOn = t.toMillis(false);
+                    break;
+                default:
+                    skip(parser);
+                    break;
             }
         }
         return new Entry(id, title, link, publishedOn);
@@ -169,9 +175,6 @@ public class FeedParser {
      */
     private String readTag(XmlPullParser parser, int tagType)
             throws IOException, XmlPullParserException {
-        String tag = null;
-        String endTag = null;
-
         switch (tagType) {
             case TAG_ID:
                 return readBasicTag(parser, "id");

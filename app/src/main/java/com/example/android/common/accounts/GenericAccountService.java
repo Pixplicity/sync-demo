@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 public class GenericAccountService extends Service {
@@ -48,6 +49,7 @@ public class GenericAccountService extends Service {
      * @return Handle to application's account (not guaranteed to resolve unless createSyncAccount()
      * has been called)
      */
+    @NonNull
     public static Account getAccount(String accountType) {
         // Note: Normally the account name is set to the user's identity (username or email
         // address). However, since we aren't actually using any user accounts, it makes more sense

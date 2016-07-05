@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.example.android.common.db.SelectionBuilder;
 
@@ -72,7 +73,7 @@ public class FeedProvider extends ContentProvider {
      * Determine the mime type for entries returned by a given URI.
      */
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case ROUTE_ENTRIES:
@@ -91,7 +92,10 @@ public class FeedProvider extends ContentProvider {
      * (/entries/{ID}).
      */
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri,
+                        String[] projection,
+                        String selection,
+                        String[] selectionArgs,
                         String sortOrder) {
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         SelectionBuilder builder = new SelectionBuilder();
@@ -121,7 +125,8 @@ public class FeedProvider extends ContentProvider {
      * Insert a new entry into the database.
      */
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri,
+                      ContentValues values) {
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         assert db != null;
         final int match = sUriMatcher.match(uri);
@@ -147,7 +152,9 @@ public class FeedProvider extends ContentProvider {
      * Delete an entry by database by URI.
      */
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri,
+                      String selection,
+                      String[] selectionArgs) {
         SelectionBuilder builder = new SelectionBuilder();
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
@@ -179,7 +186,10 @@ public class FeedProvider extends ContentProvider {
      * Update an etry in the database by URI.
      */
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri,
+                      ContentValues values,
+                      String selection,
+                      String[] selectionArgs) {
         SelectionBuilder builder = new SelectionBuilder();
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);

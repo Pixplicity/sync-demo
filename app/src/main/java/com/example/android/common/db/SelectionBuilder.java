@@ -95,9 +95,9 @@ public class SelectionBuilder {
     private static final String TAG = "basicsyncadapter";
 
     private String mTable = null;
-    private Map<String, String> mProjectionMap = new HashMap<String, String>();
+    private Map<String, String> mProjectionMap = new HashMap<>();
     private StringBuilder mSelection = new StringBuilder();
-    private ArrayList<String> mSelectionArgs = new ArrayList<String>();
+    private ArrayList<String> mSelectionArgs = new ArrayList<>();
 
     /**
      * Reset any internal state, allowing this builder to be recycled.
@@ -106,6 +106,7 @@ public class SelectionBuilder {
      *
      * @return Fluent interface
      */
+    @SuppressWarnings("unused")
     public SelectionBuilder reset() {
         mTable = null;
         mSelection.setLength(0);
@@ -143,6 +144,7 @@ public class SelectionBuilder {
      *                      {@code selection} statement. Will be automatically escaped.
      * @return Fluent interface
      */
+    @SuppressWarnings("unused")
     public SelectionBuilder where(String selection, String... selectionArgs) {
         if (TextUtils.isEmpty(selection)) {
             if (selectionArgs != null && selectionArgs.length > 0) {
@@ -179,6 +181,7 @@ public class SelectionBuilder {
      * @param table Table name
      * @return Fluent interface
      */
+    @SuppressWarnings("unused")
     public SelectionBuilder table(String table) {
         mTable = table;
         return this;
@@ -206,6 +209,7 @@ public class SelectionBuilder {
      * @param table  Secondary table to join.
      * @return Fluent interface
      */
+    @SuppressWarnings("unused")
     public SelectionBuilder mapToTable(String column, String table) {
         mProjectionMap.put(column, table + "." + column);
         return this;
@@ -223,6 +227,7 @@ public class SelectionBuilder {
      * @param toClause   SQL string representing data to be mapped
      * @return Fluent interface
      */
+    @SuppressWarnings("unused")
     public SelectionBuilder map(String fromColumn, String toClause) {
         mProjectionMap.put(fromColumn, toClause + " AS " + fromColumn);
         return this;
@@ -234,6 +239,7 @@ public class SelectionBuilder {
      * @return Current selection as a SQL statement
      * @see #getSelectionArgs()
      */
+    @SuppressWarnings("unused")
     public String getSelection() {
         return mSelection.toString();
 
@@ -244,6 +250,7 @@ public class SelectionBuilder {
      *
      * @see #getSelection()
      */
+    @SuppressWarnings("unused")
     public String[] getSelectionArgs() {
         return mSelectionArgs.toArray(new String[mSelectionArgs.size()]);
     }
@@ -261,6 +268,7 @@ public class SelectionBuilder {
      *
      * @param columns User supplied projection (column list).
      */
+    @SuppressWarnings("unused")
     private void mapColumns(String[] columns) {
         for (int i = 0; i < columns.length; i++) {
             final String target = mProjectionMap.get(columns[i]);
@@ -268,17 +276,6 @@ public class SelectionBuilder {
                 columns[i] = target;
             }
         }
-    }
-
-    /**
-     * Return a description of this builder's state. Does NOT output SQL.
-     *
-     * @return Human-readable internal state
-     */
-    @Override
-    public String toString() {
-        return "SelectionBuilder[table=" + mTable + ", selection=" + getSelection()
-                + ", selectionArgs=" + Arrays.toString(getSelectionArgs()) + "]";
     }
 
     /**
@@ -294,6 +291,7 @@ public class SelectionBuilder {
      * @return A {@link Cursor} object, which is positioned before the first entry. Note that
      * {@link Cursor}s are not synchronized, see the documentation for more details.
      */
+    @SuppressWarnings("unused")
     public Cursor query(SQLiteDatabase db, String[] columns, String orderBy) {
         return query(db, columns, null, null, orderBy, null);
     }
@@ -320,6 +318,7 @@ public class SelectionBuilder {
      * @return A {@link Cursor} object, which is positioned before the first entry. Note that
      * {@link Cursor}s are not synchronized, see the documentation for more details.
      */
+    @SuppressWarnings("unused")
     public Cursor query(SQLiteDatabase db, String[] columns, String groupBy,
                         String having, String orderBy, String limit) {
         assertTable();
@@ -339,6 +338,7 @@ public class SelectionBuilder {
      *               be translated to NULL
      * @return The number of rows affected.
      */
+    @SuppressWarnings("unused")
     public int update(SQLiteDatabase db, ContentValues values) {
         assertTable();
         Log.v(TAG, "update() " + this);
@@ -351,10 +351,22 @@ public class SelectionBuilder {
      * @param db Database to query.
      * @return The number of rows affected.
      */
+    @SuppressWarnings("unused")
     public int delete(SQLiteDatabase db) {
         assertTable();
         Log.v(TAG, "delete() " + this);
         return db.delete(mTable, getSelection(), getSelectionArgs());
+    }
+
+    /**
+     * Return a description of this builder's state. Does NOT output SQL.
+     *
+     * @return Human-readable internal state
+     */
+    @Override
+    public String toString() {
+        return "SelectionBuilder[table=" + mTable + ", selection=" + getSelection()
+                + ", selectionArgs=" + Arrays.toString(getSelectionArgs()) + "]";
     }
 
 }
