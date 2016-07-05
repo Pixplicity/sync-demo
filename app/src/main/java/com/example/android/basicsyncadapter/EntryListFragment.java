@@ -26,17 +26,21 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -64,7 +68,7 @@ import com.example.android.common.accounts.GenericAccountService;
  * runs immediately. An indeterminate ProgressBar element is displayed, showing that the sync is
  * occurring.
  */
-public class EntryListFragment extends ListFragment
+public class EntryListFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "EntryListFragment";
@@ -117,20 +121,8 @@ public class EntryListFragment extends ListFragment
      */
     private static final int COLUMN_PUBLISHED = 3;
 
-    /**
-     * List of Cursor columns to read from when preparing an adapter to populate the ListView.
-     */
-    private static final String[] FROM_COLUMNS = new String[]{
-            FeedContract.Entry.COLUMN_NAME_TITLE,
-            FeedContract.Entry.COLUMN_NAME_PUBLISHED
-    };
-
-    /**
-     * List of Views which will be populated by Cursor data.
-     */
-    private static final int[] TO_FIELDS = new int[]{
-            android.R.id.text1,
-            android.R.id.text2};
+    private ListView mListView;
+    private View mEmpty;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -159,16 +151,30 @@ public class EntryListFragment extends ListFragment
         SyncUtils.createSyncAccount(context);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_entry_list, null);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mListView = (ListView) view.findViewById(R.id.list_view);
+        mEmpty = view.findViewById(R.id.empty);
+
         mAdapter = new SimpleCursorAdapter(
                 getActivity(),       // Current context
-                android.R.layout.simple_list_item_activated_2,  // Layout for individual rows
+                R.layout.list_item,  // Layout for individual rows
                 null,                // Cursor
-                FROM_COLUMNS,        // Cursor columns to use
-                TO_FIELDS,           // Layout fields to use
+                new String[]{        // Cursor columns to use
+                                     FeedContract.Entry.COLUMN_NAME_TITLE,
+                                     FeedContract.Entry.COLUMN_NAME_PUBLISHED
+                },
+                new int[]{           // Layout fields to use
+                                     R.id.title,
+                                     R.id.date},
                 0                    // No flags
         );
         mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
@@ -186,8 +192,34 @@ public class EntryListFragment extends ListFragment
                 }
             }
         });
-        setListAdapter(mAdapter);
-        setEmptyText(getText(R.string.loading));
+
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Load an article in the default browser when selected by the user.
+
+                // Get a URI for the selected item, then start an Activity that displays the URI. Any
+                // Activity that filters for ACTION_VIEW and a URI can accept this. In most cases, this will
+                // be a browser.
+
+                // Get the item at the selected position, in the form of a Cursor.
+                Cursor c = (Cursor) mAdapter.getItem(position);
+                // Get the link to the article represented by the item.
+                String articleUrlString = c.getString(COLUMN_URL_STRING);
+                if (articleUrlString == null) {
+                    Log.e(TAG, "Attempt to launch entry with null link");
+                    return;
+                }
+
+                Log.i(TAG, "Opening URL: " + articleUrlString);
+                // Get a Uri object for the URL string
+                Uri articleURL = Uri.parse(articleUrlString);
+                Intent i = new Intent(Intent.ACTION_VIEW, articleURL);
+                startActivity(i);
+            }
+        });
+
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -231,13 +263,18 @@ public class EntryListFragment extends ListFragment
                 FeedContract.Entry.COLUMN_NAME_PUBLISHED + " desc"); // Sort
     }
 
+    private void changeCursor(Cursor cursor) {
+        mAdapter.changeCursor(cursor);
+        mEmpty.setVisibility(cursor == null || cursor.getCount() == 0 ? View.VISIBLE : View.GONE);
+    }
+
     /**
      * Move the Cursor returned by the query into the ListView adapter. This refreshes the existing
      * UI with the data in the Cursor.
      */
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        mAdapter.changeCursor(cursor);
+        changeCursor(cursor);
     }
 
     /**
@@ -248,7 +285,7 @@ public class EntryListFragment extends ListFragment
      */
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        mAdapter.changeCursor(null);
+        changeCursor(null);
     }
 
     /**
@@ -273,33 +310,6 @@ public class EntryListFragment extends ListFragment
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Load an article in the default browser when selected by the user.
-     */
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Get a URI for the selected item, then start an Activity that displays the URI. Any
-        // Activity that filters for ACTION_VIEW and a URI can accept this. In most cases, this will
-        // be a browser.
-
-        // Get the item at the selected position, in the form of a Cursor.
-        Cursor c = (Cursor) mAdapter.getItem(position);
-        // Get the link to the article represented by the item.
-        String articleUrlString = c.getString(COLUMN_URL_STRING);
-        if (articleUrlString == null) {
-            Log.e(TAG, "Attempt to launch entry with null link");
-            return;
-        }
-
-        Log.i(TAG, "Opening URL: " + articleUrlString);
-        // Get a Uri object for the URL string
-        Uri articleURL = Uri.parse(articleUrlString);
-        Intent i = new Intent(Intent.ACTION_VIEW, articleURL);
-        startActivity(i);
     }
 
     /**
