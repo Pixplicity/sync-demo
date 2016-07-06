@@ -17,7 +17,13 @@
 package com.example.android.basicsyncadapter.account;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+
+import com.example.android.basicsyncadapter.provider.FeedContract;
 
 /**
  * Static helper methods for working with the accounts.
@@ -50,6 +56,23 @@ public class AccountUtils {
         // able to locate the old account, and may erroneously register multiple accounts.
         final String accountName = ACCOUNT_NAME;
         return new Account(accountName, ACCOUNT_TYPE);
+    }
+
+    public static boolean addAccount(Context context, Account account, long pollFrequency) {
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+        if (accountManager.addAccountExplicitly(account, null, null)) {
+            // Inform the system that this account supports sync
+            ContentResolver.setIsSyncable(account, FeedContract.CONTENT_AUTHORITY, 1);
+            // Inform the system that this account is eligible for auto sync when the network is up
+            ContentResolver.setSyncAutomatically(account, FeedContract.CONTENT_AUTHORITY, true);
+            // Recommend a schedule for automatic synchronization. The system may modify this based
+            // on other scheduled syncs and network utilization.
+            ContentResolver.addPeriodicSync(
+                    account, FeedContract.CONTENT_AUTHORITY, new Bundle(), pollFrequency);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.android.basicsyncadapter.sync.SyncUtils;
+
 public class AccountAuthenticatorService extends Service {
 
     private static final String TAG = AccountAuthenticatorService.class.getSimpleName();
@@ -54,10 +56,7 @@ public class AccountAuthenticatorService extends Service {
             Bundle result = new Bundle();
 
             Account account = AccountUtils.getAccount();
-            AccountManager accountManager =
-                    (AccountManager) getApplicationContext().getSystemService(Context.ACCOUNT_SERVICE);
-
-            if (accountManager.addAccountExplicitly(account, null, null)) {
+            if (AccountUtils.addAccount(getApplicationContext(), account, SyncUtils.SYNC_FREQUENCY)) {
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, AccountUtils.ACCOUNT_NAME);
                 result.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountUtils.ACCOUNT_NAME);
             } else {
