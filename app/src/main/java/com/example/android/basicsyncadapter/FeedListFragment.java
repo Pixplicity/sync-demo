@@ -44,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.android.basicsyncadapter.account.AccountUtils;
 import com.example.android.basicsyncadapter.provider.FeedContract;
 import com.example.android.basicsyncadapter.sync.SyncService;
 import com.example.android.basicsyncadapter.sync.SyncUtils;
@@ -353,7 +354,7 @@ public class FeedListFragment extends Fragment
                     // Create a handle to the account that was created by
                     // SyncService.createSyncAccount(). This will be used to query the system to
                     // see how the sync status has changed.
-                    Account account = SyncService.getAccount(SyncUtils.ACCOUNT_TYPE);
+                    Account account = AccountUtils.getAccount();
 
                     // Test the ContentResolver to see if the sync adapter is active or pending.
                     // Set the state of the refresh button accordingly.
