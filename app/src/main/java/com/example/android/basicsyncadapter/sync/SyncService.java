@@ -41,8 +41,7 @@ public class SyncService extends Service {
 
     private static final String ACCOUNT_NAME = "Account";
 
-    private static final Object sSyncAdapterLock = new Object();
-    private static SyncAdapter sSyncAdapter = null;
+    private SyncAdapter mSyncAdapter = null;
 
     /**
      * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
@@ -70,22 +69,18 @@ public class SyncService extends Service {
     }
 
     /**
-     * Thread-safe constructor, creates static {@link SyncAdapter} instance.
+     * Creates {@link SyncAdapter} instance.
      */
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "Service created");
-        synchronized (sSyncAdapterLock) {
-            if (sSyncAdapter == null) {
-                sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
-            }
-        }
+        mSyncAdapter = new SyncAdapter(getApplicationContext(), true);
     }
 
     @Override
     /**
-     * Logging-only destructor.
+     * For logging only.
      */
     public void onDestroy() {
         super.onDestroy();
@@ -102,7 +97,7 @@ public class SyncService extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-        return sSyncAdapter.getSyncAdapterBinder();
+        return mSyncAdapter.getSyncAdapterBinder();
     }
 
 }
