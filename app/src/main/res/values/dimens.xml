@@ -14,10 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<account-authenticator
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountPreferences="@xml/account_preferences"
-    android:accountType="com.example.android.basicsyncadapter.account"
-    android:icon="@drawable/ic_launcher"
-    android:label="@string/app_name"
-    android:smallIcon="@drawable/ic_launcher"/>
+<resources>
+    <dimen name="action_button_min_width">48dp</dimen>
+    <dimen name="indeterminate_progress_size">32dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>
