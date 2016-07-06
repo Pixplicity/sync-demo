@@ -47,7 +47,6 @@ import android.widget.TextView;
 import com.example.android.basicsyncadapter.provider.FeedContract;
 import com.example.android.basicsyncadapter.sync.SyncService;
 import com.example.android.basicsyncadapter.sync.SyncUtils;
-import com.example.android.common.accounts.GenericAccountService;
 
 /**
  * List fragment containing a list of Atom entry objects (articles) stored in the local database.
