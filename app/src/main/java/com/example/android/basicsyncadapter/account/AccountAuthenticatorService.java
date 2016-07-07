@@ -1,4 +1,5 @@
 package com.example.android.basicsyncadapter.account;
+
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
@@ -17,12 +18,12 @@ public class AccountAuthenticatorService extends Service {
 
     private static final String TAG = AccountAuthenticatorService.class.getSimpleName();
 
-    private Authenticator mAuthenticator;
+    private AccountAuthenticator mAccountAuthenticator;
 
     @Override
     public void onCreate() {
         Log.i(TAG, "Service created");
-        mAuthenticator = new Authenticator(this);
+        mAccountAuthenticator = new AccountAuthenticator(this);
     }
 
     @Override
@@ -32,12 +33,12 @@ public class AccountAuthenticatorService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return mAuthenticator.getIBinder();
+        return mAccountAuthenticator.getIBinder();
     }
 
-    public class Authenticator extends AbstractAccountAuthenticator {
+    public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
-        public Authenticator(Context context) {
+        public AccountAuthenticator(Context context) {
             super(context);
         }
 

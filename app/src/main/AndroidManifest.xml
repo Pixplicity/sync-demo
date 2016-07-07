@@ -86,8 +86,8 @@
         </service>
 
         <!-- This implements the account we'll use as an attachment point for our SyncAdapter. Since
-             our SyncAdapter doesn't need to authenticate the current user (it just fetches a public RSS
-             feed), this account's implementation is largely empty.
+             our SyncAdapter doesn't need to authenticate the current user (it just fetches a public
+             RSS feed), this account's implementation is largely empty.
 
              It's also possible to attach a SyncAdapter to an existing account provided by another
              package. In that case, this element could be omitted here. -->
@@ -96,7 +96,7 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
-            <!-- This points to an XMLf ile which describes our account service. -->
+            <!-- This points to an XML file which describes our account service. -->
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator"/>

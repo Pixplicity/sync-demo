@@ -78,9 +78,9 @@ public class SyncUtils {
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(
-                AccountUtils.getAccount(), // Sync account
-                FeedContract.CONTENT_AUTHORITY,        // Content authority
-                extras);                               // Extras
+                AccountUtils.getAccount(),      // Sync account
+                FeedContract.CONTENT_AUTHORITY, // Content authority
+                extras);                        // Extras
     }
 
 }
