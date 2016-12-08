@@ -90,8 +90,12 @@
              RSS feed), this account's implementation is largely empty.
 
              It's also possible to attach a SyncAdapter to an existing account provided by another
-             package. In that case, this element could be omitted here. -->
-        <service android:name=".account.AccountAuthenticatorService">
+             package. In that case, this element could be omitted here.
+
+             It needs to be exported, so that the system sync framework can access it. -->
+        <service
+            android:name=".account.AccountAuthenticatorService"
+            android:exported="true">
             <!-- Required filter used by the system to launch our account service. -->
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
