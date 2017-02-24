@@ -54,8 +54,7 @@ public class AccountUtils {
         //
         // This string should *not* be localized. If the user switches locale, we would not be
         // able to locate the old account, and may erroneously register multiple accounts.
-        final String accountName = ACCOUNT_NAME;
-        return new Account(accountName, ACCOUNT_TYPE);
+        return new Account(ACCOUNT_NAME, ACCOUNT_TYPE);
     }
 
     public static boolean addAccount(Context context, Account account, long pollFrequency) {
